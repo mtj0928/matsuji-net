@@ -4,8 +4,7 @@ import SocialLinks from '../common/SocialLinks.astro';
 // TODO: 実際のプロフィール情報に置き換える
 const profile = {
   name: 'matsuji',
-  title: 'Software Engineer',
-  bio: 'Web開発とモバイルアプリ開発が好きなエンジニアです。TypeScript、React、Swiftを主に使っています。OSS活動や技術ブログの執筆も行っています。',
+  bio: 'iOS app developer in Japan🇯🇵',
   avatar: '/images/profile.jpg',
 };
 ---
@@ -19,10 +18,9 @@ const profile = {
       class="w-32 h-32 rounded-full object-cover"
     />
 
-    <!-- Name & Title -->
+    <!-- Name -->
     <div>
-      <h1 class="text-3xl font-bold mb-2">{profile.name}</h1>
-      <p class="text-gray-600 dark:text-gray-400">{profile.title}</p>
+      <h1 class="text-3xl font-bold">{profile.name}</h1>
     </div>
 
     <!-- Bio -->

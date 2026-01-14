@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import type { Page, GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import Pagination from '../../components/blog/Pagination.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPosts = await getCollection('blog');
+  const publishedPosts = allPosts
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return paginate(publishedPosts, { pageSize: 10 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+
+// 全タグを取得
+const allPosts = await getCollection('blog');
+const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
+---
+
+<BaseLayout title={`Blog - Page ${page.currentPage}`} description="技術ブログ記事の一覧です。">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold mb-4">Blog</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        技術に関する記事や学んだことを発信しています。
+      </p>
+    </header>
+
+    <!-- Tags Filter -->
+    {allTags.length > 0 && (
+      <div class="mb-8">
+        <h2 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">タグで絞り込む</h2>
+        <div class="flex flex-wrap gap-2">
+          {allTags.map((tag) => (
+            <a
+              href={`/blog/tag/${tag}`}
+              class="tag hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Blog Posts Grid -->
+    <div class="grid md:grid-cols-2 gap-6">
+      {page.data.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+
+    <!-- Pagination -->
+    <Pagination currentPage={page.currentPage} lastPage={page.lastPage} urlBase="/blog" />
+  </div>
+</BaseLayout>

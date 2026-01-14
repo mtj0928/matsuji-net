@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import ProfileCard from '../components/home/ProfileCard.astro';
+import RecentBlogs from '../components/home/RecentBlogs.astro';
+import BentoWorks from '../components/home/BentoWorks.astro';
+---
+
+<BaseLayout title="Home">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Desktop Layout -->
+    <div class="hidden lg:grid lg:grid-cols-2 lg:gap-8">
+      <!-- Left: Profile Card -->
+      <div class="flex justify-center">
+        <div class="sticky top-8">
+          <ProfileCard />
+        </div>
+      </div>
+
+      <!-- Right: Recent Blogs & Works -->
+      <div class="space-y-8">
+        <RecentBlogs />
+        <BentoWorks />
+      </div>
+    </div>
+
+    <!-- Mobile Layout -->
+    <div class="lg:hidden space-y-8">
+      <div class="flex justify-center">
+        <ProfileCard />
+      </div>
+      <RecentBlogs />
+      <BentoWorks />
+    </div>
+  </div>
+</BaseLayout>

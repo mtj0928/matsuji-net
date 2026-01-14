@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+}
+
+.dark .card {
+  background-color: #1f2937;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.dark .tag {
+  background-color: #374151;
+  color: #d1d5db;
+}

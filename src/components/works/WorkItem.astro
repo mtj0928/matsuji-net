@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  work: CollectionEntry<'works'>;
+}
+
+const { work } = Astro.props;
+const sizeClass = `bento-item-${work.data.size}`;
+---
+
+<a
+  href={work.data.link}
+  target="_blank"
+  rel="noopener noreferrer"
+  class={`${sizeClass} group relative overflow-hidden rounded-xl`}
+>
+  <!-- Background gradient -->
+  <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700">
+  </div>
+
+  <!-- Hover overlay with details -->
+  <div class="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-300 flex flex-col justify-end p-6 text-white">
+    <div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+      <h3 class="text-xl font-bold mb-2">{work.data.title}</h3>
+      <p class="text-sm text-white/80 mb-3 line-clamp-2 group-hover:line-clamp-none">
+        {work.data.description}
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {work.data.tags.map((tag) => (
+          <span class="px-2 py-1 bg-white/20 rounded text-xs backdrop-blur-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bento-item-small {
+    grid-row: span 1;
+    grid-column: span 1;
+  }
+
+  .bento-item-medium {
+    grid-row: span 1;
+    grid-column: span 2;
+  }
+
+  .bento-item-large {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+
+  @media (max-width: 768px) {
+    .bento-item-small,
+    .bento-item-medium,
+    .bento-item-large {
+      grid-row: span 1;
+      grid-column: span 1;
+    }
+  }
+</style>

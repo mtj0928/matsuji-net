@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/date';
+
+// 最新のブログ記事を3件取得
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<div class="card p-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-2xl font-bold">Recent Posts</h2>
+    <a href="/blog" class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 text-sm font-medium transition-colors">
+      もっと見る →
+    </a>
+  </div>
+
+  <div class="space-y-4">
+    {recentPosts.map((post) => (
+      <a href={`/blog/${post.slug}`} class="block group">
+        <article class="p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <h3 class="font-semibold mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+            {post.data.title}
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
+            {post.data.description}
+          </p>
+          <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+            <span>•</span>
+            <div class="flex gap-1">
+              {post.data.tags.slice(0, 2).map((tag) => (
+                <span class="tag text-xs px-2 py-0.5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </article>
+      </a>
+    ))}
+  </div>
+</div>

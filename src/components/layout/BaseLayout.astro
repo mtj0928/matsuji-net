@@ -22,7 +22,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
 
@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
 
   </head>
-  <body class="bg-white dark:bg-neutral-950 text-gray-900 dark:text-neutral-100 min-h-screen flex flex-col">
+  <body class="bg-white dark:bg-neutral-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
     <Header />
     <main class="flex-1">
       <slot />

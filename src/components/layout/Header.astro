@@ -1,6 +1,4 @@
 ---
-import ThemeToggle from '../common/ThemeToggle.astro';
-
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Blog', href: '/blog' },
@@ -8,7 +6,7 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm border-b border-gray-200 dark:border-neutral-800">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
@@ -21,17 +19,15 @@ const navItems = [
         {navItems.map((item) => (
           <a
             href={item.href}
-            class="text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+            class="text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
           >
             {item.name}
           </a>
         ))}
-        <ThemeToggle />
       </div>
 
       <!-- Mobile menu button -->
       <div class="md:hidden flex items-center space-x-2">
-        <ThemeToggle />
         <button
           id="mobile-menu-button"
           class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -49,7 +45,7 @@ const navItems = [
       {navItems.map((item) => (
         <a
           href={item.href}
-          class="block py-2 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+          class="block py-2 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
         >
           {item.name}
         </a>

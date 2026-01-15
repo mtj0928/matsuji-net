@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
 html {
   scroll-behavior: smooth;
 }
@@ -10,12 +12,8 @@ body {
 }
 
 .card {
-  background-color: white;
+  background-color: transparent;
   border-radius: 0.75rem;
-}
-
-.dark .card {
-  background-color: #1f2937;
 }
 
 .tag {
@@ -27,7 +25,13 @@ body {
   transition: background-color 0.2s;
 }
 
-.dark .tag {
-  background-color: #374151;
-  color: #d1d5db;
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: transparent;
+  }
+
+  .tag {
+    background-color: #3f3f46;
+    color: #d4d4d4;
+  }
 }

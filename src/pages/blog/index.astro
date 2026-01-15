@@ -35,7 +35,7 @@ const allTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))].s
           {allTags.map((tag) => (
             <a
               href={`/blog/tag/${tag}`}
-              class="tag hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
             >
               {tag}
             </a>
@@ -45,7 +45,7 @@ const allTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))].s
     )}
 
     <!-- Blog Posts Grid -->
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="space-y-6">
       {posts.map((post) => (
         <BlogCard post={post} />
       ))}

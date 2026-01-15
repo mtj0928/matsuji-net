@@ -21,14 +21,14 @@ const recentPosts = allPosts
   <div class="space-y-4">
     {recentPosts.map((post) => (
       <a href={`/blog/${post.slug}`} class="block group">
-        <article class="p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-          <h3 class="font-semibold mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+        <article class="p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
+          <h3 class="font-semibold mb-2 group-hover:text-gray-900 dark:group-hover:text-neutral-100 transition-colors">
             {post.data.title}
           </h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
             {post.data.description}
           </p>
-          <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+          <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-neutral-400">
             <time datetime={post.data.pubDate.toISOString()}>
               {formatDate(post.data.pubDate)}
             </time>

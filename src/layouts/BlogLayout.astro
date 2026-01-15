@@ -31,7 +31,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
         {tags.map((tag) => (
           <a
             href={`/blog/tag/${tag}`}
-            class="tag hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
           >
             {tag}
           </a>
@@ -64,7 +64,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     <footer class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
       <a
         href="/blog"
-        class="inline-flex items-center text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+        class="inline-flex items-center text-primary-500 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-neutral-100 transition-colors"
       >
         ← ブログ一覧に戻る
       </a>
@@ -78,10 +78,6 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     line-height: 1.75;
   }
 
-  .dark .article-content {
-    color: #e5e7eb;
-  }
-
   .article-content h2 {
     font-size: 1.5rem;
     font-weight: 700;
@@ -90,20 +86,12 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     color: #111827;
   }
 
-  .dark .article-content h2 {
-    color: #f9fafb;
-  }
-
   .article-content h3 {
     font-size: 1.25rem;
     font-weight: 700;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     color: #111827;
-  }
-
-  .dark .article-content h3 {
-    color: #f9fafb;
   }
 
   .article-content p {
@@ -127,20 +115,12 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     font-size: 0.875rem;
   }
 
-  .dark .article-content code {
-    background-color: #1f2937;
-  }
-
   .article-content pre {
     background-color: #f3f4f6;
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
     margin: 1rem 0;
-  }
-
-  .dark .article-content pre {
-    background-color: #1f2937;
   }
 
   .article-content pre code {
@@ -157,14 +137,6 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     color: #0284c7;
   }
 
-  .dark .article-content a {
-    color: #38bdf8;
-  }
-
-  .dark .article-content a:hover {
-    color: #7dd3fc;
-  }
-
   .article-content blockquote {
     border-left: 4px solid #0ea5e9;
     padding-left: 1rem;
@@ -173,16 +145,46 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     color: #4b5563;
   }
 
-  .dark .article-content blockquote {
-    color: #9ca3af;
-  }
-
   .article-content strong {
     font-weight: 700;
     color: #111827;
   }
 
-  .dark .article-content strong {
-    color: #f9fafb;
+  @media (prefers-color-scheme: dark) {
+    .article-content {
+      color: #e5e7eb;
+    }
+
+    .article-content h2 {
+      color: #f9fafb;
+    }
+
+    .article-content h3 {
+      color: #f9fafb;
+    }
+
+    .article-content code {
+      background-color: #1f2937;
+    }
+
+    .article-content pre {
+      background-color: #1f2937;
+    }
+
+    .article-content a {
+      color: #38bdf8;
+    }
+
+    .article-content a:hover {
+      color: #7dd3fc;
+    }
+
+    .article-content blockquote {
+      color: #9ca3af;
+    }
+
+    .article-content strong {
+      color: #f9fafb;
+    }
   }
 </style>

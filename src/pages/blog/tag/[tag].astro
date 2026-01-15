@@ -33,7 +33,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
       <div class="mb-4">
         <a
           href="/blog"
-          class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+          class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
         >
           ← すべての記事
         </a>
@@ -54,7 +54,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
           {allTags.filter((t) => t !== tag).map((otherTag) => (
             <a
               href={`/blog/tag/${otherTag}`}
-              class="tag hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
             >
               {otherTag}
             </a>
@@ -65,7 +65,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
 
     <!-- Blog Posts Grid -->
     {posts.length > 0 ? (
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="space-y-6">
         {posts.map((post) => (
           <BlogCard post={post} />
         ))}

@@ -46,7 +46,7 @@ const allTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))].s
     )}
 
     <!-- Blog Posts Grid -->
-    <div class="space-y-6">
+    <div class="space-y-4">
       {posts.map((post) => (
         <BlogCard post={post} />
       ))}

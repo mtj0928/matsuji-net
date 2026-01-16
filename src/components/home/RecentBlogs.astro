@@ -25,9 +25,11 @@ const recentPosts = allPosts
           <h3 class="font-semibold mb-2 group-hover:text-gray-900 dark:group-hover:text-neutral-100 transition-colors">
             {post.data.title}
           </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
-            {post.data.description}
-          </p>
+          {post.data.description && (
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
+              {post.data.description}
+            </p>
+          )}
           <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500 dark:text-neutral-400">
             <time datetime={post.data.pubDate.toISOString()} class="whitespace-nowrap shrink-0">
               {formatDate(post.data.pubDate)}

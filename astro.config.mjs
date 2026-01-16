@@ -11,5 +11,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      allowedHosts: ['junnsoukemac-mini.tail7b2dfb.ts.net'],
+    },
   },
 });

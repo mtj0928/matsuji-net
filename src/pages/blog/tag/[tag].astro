@@ -28,37 +28,28 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
 ---
 
 <BaseLayout title={`Blog - ${tag}`} description={`「${tag}」タグの記事一覧です。`}>
-  <div class="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-12">
     <header class="mb-12">
-      <div class="mb-4">
-        <a
-          href="/blog"
-          class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
-        >
-          ← すべての記事
-        </a>
-      </div>
-      <h1 class="text-4xl font-bold mb-2">
-        <span class="tag text-xl mr-2">{tag}</span>
-      </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        {posts.length}件の記事
-      </p>
+      <h1 class="text-4xl font-bold mb-4">Blog</h1>
     </header>
 
-    <!-- Other Tags -->
-    {allTags.length > 1 && (
+    <!-- Tags Filter -->
+    {allTags.length > 0 && (
       <div class="mb-8">
-        <h2 class="text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">他のタグ</h2>
-        <div class="flex flex-wrap gap-2">
-          {allTags.filter((t) => t !== tag).map((otherTag) => (
-            <a
-              href={`/blog/tag/${otherTag}`}
-              class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
-            >
-              {otherTag}
-            </a>
-          ))}
+        <label for="tag-picker" class="sr-only">タグ選択</label>
+        <div class="mt-3 max-w-xs">
+          <select
+            id="tag-picker"
+            class="w-full rounded-lg border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-neutral-600"
+            onChange="if (this.value) window.location.href = this.value"
+          >
+            <option value="/blog">すべての記事</option>
+            {allTags.map((otherTag) => (
+              <option value={`/blog/tag/${otherTag}`} selected={otherTag === tag}>
+                {otherTag}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     )}

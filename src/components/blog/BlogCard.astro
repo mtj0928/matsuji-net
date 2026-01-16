@@ -10,9 +10,9 @@ const { post } = Astro.props;
 const { title, description, pubDate, heroImage, tags } = post.data;
 ---
 
-<article class="card p-6 group">
+<article class="card py-6 px-0 md:p-6 group">
   <a href={`/blog/${post.slug}`} class="block">
-    <div class={`flex items-start gap-6 ${heroImage ? 'md:flex-row' : 'flex-col'}`}>
+    <div class="flex flex-col items-start gap-6 md:flex-row">
       <div class="flex-1 min-w-0 space-y-3">
         <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <time datetime={pubDate.toISOString()}>

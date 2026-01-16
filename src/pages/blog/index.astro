@@ -19,27 +19,28 @@ const allTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))].s
 ---
 
 <BaseLayout title="Blog" description="技術ブログ記事の一覧です。">
-  <div class="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-12">
     <header class="mb-12">
       <h1 class="text-4xl font-bold mb-4">Blog</h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        技術に関する記事や学んだことを発信しています。
-      </p>
     </header>
 
     <!-- Tags Filter -->
     {allTags.length > 0 && (
       <div class="mb-8">
-        <h2 class="text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">タグで絞り込む</h2>
-        <div class="flex flex-wrap gap-2">
-          {allTags.map((tag) => (
-            <a
-              href={`/blog/tag/${tag}`}
-              class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
-            >
-              {tag}
-            </a>
-          ))}
+        <label for="tag-picker" class="sr-only">タグ選択</label>
+        <div class="mt-3 max-w-xs">
+          <select
+            id="tag-picker"
+            class="w-full rounded-lg border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-neutral-600"
+            onChange="if (this.value) window.location.href = this.value"
+          >
+            <option value="" selected>
+              タグを選択
+            </option>
+            {allTags.map((tag) => (
+              <option value={`/blog/tag/${tag}`}>{tag}</option>
+            ))}
+          </select>
         </div>
       </div>
     )}

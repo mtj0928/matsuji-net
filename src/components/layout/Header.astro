@@ -6,7 +6,7 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-neutral-800">
+<header class="sticky top-0 z-50 relative bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-neutral-800">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
@@ -41,11 +41,14 @@ const navItems = [
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4">
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden absolute left-0 right-0 top-16 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-neutral-800 shadow-lg"
+    >
       {navItems.map((item) => (
         <a
           href={item.href}
-          class="block py-2 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
+          class="block px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-neutral-100 transition-colors"
         >
           {item.name}
         </a>

@@ -1,11 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { fallbackWorkImage } from '../../utils/works';
 
 const allWorks = await getCollection('works');
 const sortedWorks = allWorks.sort((a, b) => a.data.order - b.data.order);
-const sampleImage =
-  'https://private-user-images.githubusercontent.com/12427733/291065628-5ba5419b-d0d1-4450-9a40-0e8b33133138.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Njg0ODM3NjQsIm5iZiI6MTc2ODQ4MzQ2NCwicGF0aCI6Ii8xMjQyNzczMy8yOTEwNjU2MjgtNWJhNTQxOWItZDBkMS00NDUwLTlhNDAtMGU4YjMzMTMzMTM4LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAxMTUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMTE1VDEzMjQyNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWMwZWYzZDhhNGFiODg0NjAwYTA5NzViODBkNDlhZGYwNzY4ZjA1M2I5NTdmODYxZjYyMDI5MmJjYjEzNmFiZjEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.OCiR_0Qka_XKuEKTm1UJ2s12GyNn4n2PBm518VKIPnU';
 const categories = [
   { key: 'presentation', label: '登壇' },
   { key: 'article', label: '記事執筆' },
@@ -32,8 +31,7 @@ const worksByCategory = categories
         <div class="card p-6">
           <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {category.items.map((work) => {
-              const imageSrc = work.data.image ?? sampleImage;
-              const ogpLink = work.data.image ? undefined : work.data.link;
+              const imageSrc = work.data.image ?? fallbackWorkImage;
 
               return (
                 <a
@@ -45,7 +43,6 @@ const worksByCategory = categories
                   <img
                     src={imageSrc}
                     alt={work.data.title}
-                    data-ogp-link={ogpLink}
                     class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -58,43 +55,3 @@ const worksByCategory = categories
     ))}
   </div>
 </BaseLayout>
-
-<script is:inline>
-  const ogpProxyUrl = (url) => {
-    const normalized = url.replace(/^https?:\/\//, '');
-    const scheme = url.startsWith('https://') ? 'https://' : 'http://';
-    return `https://r.jina.ai/${scheme}${normalized}`;
-  };
-
-  const fetchOgpImage = async (url) => {
-    try {
-      const response = await fetch(ogpProxyUrl(url));
-      if (!response.ok) return null;
-      const html = await response.text();
-      const match = html.match(
-        /<meta[^>]+(?:property|name)=["']og:image(?::secure_url)?["'][^>]*content=["']([^"']+)["']/i
-      );
-      if (!match || !match[1]) return null;
-      return new URL(match[1], url).toString();
-    } catch {
-      return null;
-    }
-  };
-
-  const ogpImages = document.querySelectorAll('img[data-ogp-link]');
-  ogpImages.forEach(async (img) => {
-    const link = img.getAttribute('data-ogp-link');
-    if (!link) return;
-    const ogpImage = await fetchOgpImage(link);
-    if (ogpImage) {
-      img.src = ogpImage;
-    }
-  });
-</script>
-
-<style>
-  .squircle-corners {
-    border-radius: 28px;
-    corner-shape: squircle;
-  }
-</style>

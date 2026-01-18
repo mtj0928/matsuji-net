@@ -17,6 +17,11 @@ body {
   border-radius: 0.75rem;
 }
 
+.squircle-corners {
+  border-radius: 28px;
+  corner-shape: squircle;
+}
+
 .tag {
   padding: 0.25rem 0.75rem;
   background-color: #f3f4f6;

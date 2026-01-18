@@ -2,7 +2,7 @@
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import ProfileCard from '../components/home/ProfileCard.astro';
 import RecentBlogs from '../components/home/RecentBlogs.astro';
-import BentoWorks from '../components/home/BentoWorks.astro';
+import HomeWorks from '../components/home/HomeWorks.astro';
 ---
 
 <BaseLayout title="Home">
@@ -17,7 +17,7 @@ import BentoWorks from '../components/home/BentoWorks.astro';
       <!-- Right: Recent Blogs & Works (offset for fixed profile) -->
       <div class="ml-auto w-1/2 space-y-6">
         <RecentBlogs />
-        <BentoWorks />
+        <HomeWorks />
       </div>
     </div>
 
@@ -27,7 +27,7 @@ import BentoWorks from '../components/home/BentoWorks.astro';
         <ProfileCard />
       </div>
       <RecentBlogs />
-      <BentoWorks />
+      <HomeWorks />
     </div>
   </div>
 </BaseLayout>

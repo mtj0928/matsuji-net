@@ -121,42 +121,71 @@ const blogCollection = defineCollection({
 
 ### 作品紹介ページ (`/works`)
 
-#### Bento UI設計
+#### デザイン原則
+
+Works表示は**Recent Postsと統一されたシンプルなデザイン**を採用：
+
+- **影・枠線なし** - クリーンな見た目
+- **控えめなHover効果** - 背景色の変化のみ（`hover:bg-gray-50 dark:hover:bg-neutral-900`）
+- **弱い角丸** - `rounded-lg`（約8px）で柔らかい印象
+- **OGP画像を活用** - ビルド時に各WorkのOGP情報を取得して表示
+
+#### レイアウト構造
 
 ```
-┌──────┬─────────┬──────┐
-│      │         │      │
-│ OSS  │  App    │Talk  │
-│      │         │      │
-├──────┴─────────┤      │
-│                │      │
-│   Featured     │      │
-│                │      │
-└────────────────┴──────┘
+┌─────────────────────────────────────┐
+│ 登壇                                 │
+│ ┌────────────────────────────────┐ │
+│ │ ┌────┐  タイトル              │ │
+│ │ │OGP │  説明文...             │ │
+│ │ └────┘                         │ │
+│ └────────────────────────────────┘ │
+│ ┌────────────────────────────────┐ │
+│ │ ┌────┐  タイトル              │ │
+│ │ │OGP │  説明文...             │ │
+│ │ └────┘                         │ │
+│ └────────────────────────────────┘ │
+└─────────────────────────────────────┘
 ```
 
-**設計意図**:
-- **視覚的なインパクト** - Apple風のモダンなグリッド
-- **大小で重要度表現** - Featured作品を大きく表示
-- **ホバーで詳細表示** - インタラクティブな情報開示
+**レイアウトの特徴**:
+- **横並び配置**: 左にOGP画像（16:9）、右にタイトル＋説明
+- **カテゴリー別グループ化**: 登壇、記事執筆、OSS、アプリ開発で分類
+- **縦積みリスト**: 各カテゴリー内で縦に並ぶ
 
-#### サイズ指定の仕組み
+#### ホーム画面とWorks一覧画面の違い
+
+| 項目 | ホーム画面 | Works一覧画面 |
+|------|-----------|--------------|
+| 表示件数 | 4件（featured） | 全件（カテゴリー別） |
+| OGP画像幅 | `w-48 md:w-56` (192px/224px) | `w-56 md:w-64` (224px/256px) |
+| アイテム間隔 | `space-y-4` (16px) | `space-y-6` (24px) |
+| パディング | `p-2` (8px) | `p-3` (12px) |
+
+#### OGP画像取得の実装
 
 ```typescript
-size: z.enum(['small', 'medium', 'large'])
+// ビルド時に各WorkのOGP情報を取得
+const worksWithOgp = await Promise.all(
+  sortedWorks.map(async (work) => {
+    const ogp = await fetchOgp(work.data.link);
+    return {
+      ...work,
+      ogp,
+    };
+  })
+);
+
+// 表示時のフォールバック
+const imageSrc = work.ogp?.image ?? work.data.image ?? fallbackWorkImage;
+const title = work.ogp?.title ?? work.data.title;
+const description = work.ogp?.description ?? work.data.description;
 ```
 
-- `small`: 1行1列
-- `medium`: 1行2列
-- `large`: 2行2列
-
-CSS Gridの `span` で実現：
-
-```css
-.bento-item-small { grid-area: span 1 / span 1; }
-.bento-item-medium { grid-area: span 1 / span 2; }
-.bento-item-large { grid-area: span 2 / span 2; }
-```
+**ポイント**:
+- ビルド時にOGP情報を取得するため、ユーザー体験が高速
+- OGP取得失敗時のフォールバックを用意
+- 16:9のアスペクト比を維持
 
 ## 重要な実装パターン
 
@@ -239,6 +268,38 @@ export async function getStaticPaths() {
 - `/blog/tag/CSS`
 
 すべて**ビルド時に静的生成**されるため、高速。
+
+### 5. 角丸の同心円計算式
+
+カード内に余白を持つ要素（画像など）の角丸を設定する際、外側のカードと同心円状に見えるようにするための計算式：
+
+```
+r2 = r1 - p
+```
+
+- `r1`: 外側の要素の角丸半径
+- `p`: 余白（padding）
+- `r2`: 内側の要素の角丸半径
+
+**実例（Works カード）**:
+```typescript
+// カード全体
+class="... p-2"  // padding = 8px
+
+// カード全体の角丸（global.css）
+.squircle-corners {
+  border-radius: 28px;  // r1 = 28px
+}
+
+// OGP画像の角丸
+// r2 = 28px - 8px = 20px
+class="... rounded-[20px]"
+```
+
+**重要性**:
+- 視覚的な調和が保たれる
+- デザインの一貫性が向上
+- プロフェッショナルな印象を与える
 
 ## レスポンシブデザインの戦略
 
@@ -464,6 +525,32 @@ cat works.json | jq -c '.[]' | nl | while IFS=: read n json; do
 done
 ```
 
+## デザインシステム
+
+### UI一貫性の原則
+
+サイト全体で統一されたデザイン言語を使用：
+
+1. **Recent Posts風のシンプルデザイン**
+   - Works表示もこのスタイルに統一
+   - 影・枠線を使わず、クリーンな見た目
+   - Hoverは背景色の変化のみ
+
+2. **角丸の使い分け**
+   - 強調が必要な要素: `squircle-corners` (28px) - Profileカード等
+   - 一般的な要素: `rounded-lg` (8px) - Works, Posts等
+   - 画像要素: `rounded-md` (6px) - OGP画像等
+   - 同心円の法則（r2 = r1 - p）を適用
+
+3. **Hover効果の統一**
+   - 浮き上がりや影の変化は使わない
+   - 背景色の変化のみ: `hover:bg-gray-50 dark:hover:bg-neutral-900`
+   - トランジション: `transition-colors`
+
+4. **テキストの配置**
+   - OGP画像とテキストの組み合わせでは上揃え（`justify-start`）
+   - 視覚的な統一感を重視
+
 ## まとめ
 
 このサイトは以下の原則に基づいて設計されています：
@@ -473,5 +560,6 @@ done
 3. **保守性** - TypeScript、Content Collections、明確なディレクトリ構造
 4. **拡張性** - 新しいページやコンテンツタイプの追加が容易
 5. **アクセシビリティ** - すべてのユーザーが利用可能
+6. **デザインの一貫性** - Recent Postsを基準とした統一されたUI
 
 個人サイトとして必要な機能を過不足なく実装し、今後の成長に対応できる基盤が整っています。

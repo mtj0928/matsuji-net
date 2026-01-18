@@ -27,17 +27,6 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 
     <!-- Header -->
     <header class="mb-8">
-      <div class="flex flex-wrap gap-2 mb-4">
-        {tags.map((tag) => (
-          <a
-            href={`/blog/tag/${encodeURIComponent(tag)}`}
-            class="tag hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
-          >
-            {tag}
-          </a>
-        ))}
-      </div>
-
       <h1 class="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
 
       <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
@@ -52,6 +41,17 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
             </time>
           </>
         )}
+      </div>
+
+      <div class="flex flex-wrap gap-2 mt-4">
+        {tags.map((tag) => (
+          <a
+            href={`/blog/tag/${encodeURIComponent(tag)}`}
+            class="tag hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
       </div>
     </header>
 

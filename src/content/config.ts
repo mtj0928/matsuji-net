@@ -24,6 +24,7 @@ const worksCollection = defineCollection({
     link: z.string().url(),
     category: z.enum(['oss', 'app', 'presentation', 'article']),
     order: z.number(),
+    featuredOrder: z.number().optional(),
     featured: z.boolean().default(false),
   }),
 });

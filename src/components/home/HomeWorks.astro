@@ -6,7 +6,11 @@ import { fallbackWorkImage, fetchOgp } from '../../utils/works';
 const allWorks = await getCollection('works');
 const featuredWorks = allWorks
   .filter((work) => work.data.featured)
-  .sort((a, b) => a.data.order - b.data.order)
+  .sort((a, b) => {
+    const aOrder = a.data.featuredOrder ?? a.data.order;
+    const bOrder = b.data.featuredOrder ?? b.data.order;
+    return aOrder - bOrder;
+  })
   .slice(0, 4);
 
 // ビルド時に各WorkのOGP情報を取得
@@ -32,8 +36,8 @@ const worksWithOgp = await Promise.all(
   <div class="grid grid-cols-1 gap-4">
     {worksWithOgp.map((work) => {
       const imageSrc = work.ogp?.image ?? work.data.image ?? fallbackWorkImage;
-      const title = work.ogp?.title ?? work.data.title;
-      const description = work.ogp?.description ?? work.data.description;
+      const title = work.data.title ?? work.ogp?.title;
+      const description = work.data.description ?? work.ogp?.description;
 
       return (
         <a
@@ -59,7 +63,7 @@ const worksWithOgp = await Promise.all(
               {title}
             </h3>
             {description && (
-              <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-snug">
+              <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 line-clamp-4 leading-snug">
                 {description}
               </p>
             )}

@@ -1,0 +1,9 @@
+{
+	"title": "SlideKit",
+	"description": "SwiftUIでプレゼンスライドを作ることができるライブラリです。",
+	"link": "https://github.com/mtj0928/SlideKit",
+	"category": "oss",
+	"order": 1,
+	"featuredOrder": 1,
+	"featured": true
+}

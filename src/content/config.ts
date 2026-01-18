@@ -20,7 +20,7 @@ const worksCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    image: z.string(),
+    image: z.string().optional(),
     link: z.string().url(),
     category: z.enum(['oss', 'app', 'presentation', 'article']),
     tags: z.array(z.string()).default([]),

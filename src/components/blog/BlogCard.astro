@@ -10,53 +10,59 @@ const { post } = Astro.props;
 const { title, description, pubDate, heroImage, tags } = post.data;
 ---
 
-<article class="card py-6 px-0 md:p-6 group">
-  <a href={`/blog/${post.slug}`} class="block">
-    <div class={`blog-card-layout ${heroImage ? '' : 'blog-card-layout--no-thumb'}`}>
-      <div class="blog-card-meta">
-        <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <time datetime={pubDate.toISOString()}>
-            {formatDate(pubDate)}
-          </time>
-        </div>
-
-        <h2 class="text-xl font-bold group-hover:text-gray-900 dark:group-hover:text-neutral-100 transition-colors">
-          {title}
-        </h2>
+<article class="card py-6 px-0 md:p-6 group relative">
+  <a
+    href={`/blog/${post.slug}`}
+    class="absolute inset-0 z-10"
+    aria-label={`${title}の記事を読む`}
+  ></a>
+  <div class={`blog-card-layout ${heroImage ? '' : 'blog-card-layout--no-thumb'}`}>
+    <div class="blog-card-meta">
+      <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <time datetime={pubDate.toISOString()}>
+          {formatDate(pubDate)}
+        </time>
       </div>
 
-      {heroImage && (
-        <div class="blog-card-thumb">
-          <div class="aspect-[1.91/1] rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-800">
-            <img
-              src={heroImage}
-              alt=""
-              loading="lazy"
-              class="w-full h-full object-cover"
-            />
-          </div>
+      <h2 class="text-xl font-bold group-hover:text-gray-900 dark:group-hover:text-neutral-100 transition-colors relative z-10">
+        {title}
+      </h2>
+    </div>
+
+    {heroImage && (
+      <div class="blog-card-thumb">
+        <div class="aspect-[1.91/1] rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-800">
+          <img
+            src={heroImage}
+            alt=""
+            loading="lazy"
+            class="w-full h-full object-cover"
+          />
         </div>
+      </div>
+    )}
+
+    <div class="blog-card-desc">
+      {description && (
+        <p class="text-gray-600 dark:text-gray-300 line-clamp-3 relative z-10">
+          {description}
+        </p>
       )}
 
-      <div class="blog-card-desc">
-        {description && (
-          <p class="text-gray-600 dark:text-gray-300 line-clamp-3">
-            {description}
-          </p>
-        )}
-
-        {tags.length > 0 && (
-          <div class="flex flex-wrap gap-2 pt-2">
-            {tags.map((tag) => (
-              <span class="tag text-xs">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 pt-2">
+          {tags.map((tag) => (
+            <a
+              href={`/blog/tag/${encodeURIComponent(tag)}`}
+              class="tag text-xs relative z-20"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
-  </a>
+  </div>
 </article>
 
 <style>

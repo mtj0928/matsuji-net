@@ -31,27 +31,66 @@ const worksByCategory = categories
         <h2 class="text-xl font-bold mb-0 md:mb-1">{category.label}</h2>
         <div class="card p-6">
           <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {category.items.map((work) => (
-              <a
-                href={work.data.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group relative overflow-hidden rounded-2xl squircle-corners bg-gray-100 dark:bg-gray-800 aspect-square"
-              >
-                <img
-                  src={work.data.image ?? sampleImage}
-                  alt={work.data.title}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </a>
-            ))}
+            {category.items.map((work) => {
+              const imageSrc = work.data.image ?? sampleImage;
+              const ogpLink = work.data.image ? undefined : work.data.link;
+
+              return (
+                <a
+                  href={work.data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group relative overflow-hidden rounded-2xl squircle-corners bg-gray-100 dark:bg-gray-800 aspect-square"
+                >
+                  <img
+                    src={imageSrc}
+                    alt={work.data.title}
+                    data-ogp-link={ogpLink}
+                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
     ))}
   </div>
 </BaseLayout>
+
+<script is:inline>
+  const ogpProxyUrl = (url) => {
+    const normalized = url.replace(/^https?:\/\//, '');
+    const scheme = url.startsWith('https://') ? 'https://' : 'http://';
+    return `https://r.jina.ai/${scheme}${normalized}`;
+  };
+
+  const fetchOgpImage = async (url) => {
+    try {
+      const response = await fetch(ogpProxyUrl(url));
+      if (!response.ok) return null;
+      const html = await response.text();
+      const match = html.match(
+        /<meta[^>]+(?:property|name)=["']og:image(?::secure_url)?["'][^>]*content=["']([^"']+)["']/i
+      );
+      if (!match || !match[1]) return null;
+      return new URL(match[1], url).toString();
+    } catch {
+      return null;
+    }
+  };
+
+  const ogpImages = document.querySelectorAll('img[data-ogp-link]');
+  ogpImages.forEach(async (img) => {
+    const link = img.getAttribute('data-ogp-link');
+    if (!link) return;
+    const ogpImage = await fetchOgpImage(link);
+    if (ogpImage) {
+      img.src = ogpImage;
+    }
+  });
+</script>
 
 <style>
   .squircle-corners {

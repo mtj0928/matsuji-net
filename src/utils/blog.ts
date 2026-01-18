@@ -12,5 +12,5 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
 
 export async function getPublishedTags(posts?: BlogPost[]): Promise<string[]> {
   const sourcePosts = posts ?? (await getPublishedPosts());
-  return [...new Set(sourcePosts.flatMap((post) => post.data.tags))].sort();
+  return [...new Set(sourcePosts.flatMap((post) => post.data.tags ?? []))].sort();
 }

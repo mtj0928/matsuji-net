@@ -31,7 +31,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
         {tags.map((tag) => (
           <a
             href={`/blog/tag/${encodeURIComponent(tag)}`}
-            class="tag hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
+            class="tag hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
           >
             {tag}
           </a>

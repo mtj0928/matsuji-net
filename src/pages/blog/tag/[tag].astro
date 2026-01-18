@@ -7,10 +7,10 @@ import { getPublishedPosts, getPublishedTags } from '../../../utils/blog';
 
 export const getStaticPaths = (async () => {
   const publishedPosts = await getPublishedPosts();
-  const uniqueTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))];
+  const uniqueTags = [...new Set(publishedPosts.flatMap((post) => post.data.tags ?? []))];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = publishedPosts.filter((post) => post.data.tags.includes(tag));
+    const filteredPosts = publishedPosts.filter((post) => (post.data.tags ?? []).includes(tag));
 
     return {
       params: { tag },

@@ -126,7 +126,7 @@ const blogCollection = defineCollection({
 Works表示は**Recent Postsと統一されたシンプルなデザイン**を採用：
 
 - **影・枠線なし** - クリーンな見た目
-- **控えめなHover効果** - 背景色の変化のみ（`hover:bg-gray-50 dark:hover:bg-neutral-900`）
+- **控えめなHover効果** - 背景色の変化のみ（`hover:bg-gray-100 dark:hover:bg-neutral-800`）
 - **弱い角丸** - `rounded-lg`（約8px）で柔らかい印象
 - **OGP画像を活用** - ビルド時に各WorkのOGP情報を取得して表示
 
@@ -158,9 +158,9 @@ Works表示は**Recent Postsと統一されたシンプルなデザイン**を�
 | 項目 | ホーム画面 | Works一覧画面 |
 |------|-----------|--------------|
 | 表示件数 | 4件（featured） | 全件（カテゴリー別） |
-| OGP画像幅 | `w-48 md:w-56` (192px/224px) | `w-56 md:w-64` (224px/256px) |
+| OGP画像幅 | `w-36 sm:w-48 md:w-56` (144px/192px/224px) | `w-36 sm:w-48 md:w-64` (144px/192px/256px) |
 | アイテム間隔 | `space-y-4` (16px) | `space-y-6` (24px) |
-| パディング | `p-2` (8px) | `p-3` (12px) |
+| パディング | `px-2 py-4 md:p-4` | `px-2 py-4 md:p-4` |
 
 #### OGP画像取得の実装
 
@@ -544,7 +544,7 @@ done
 
 3. **Hover効果の統一**
    - 浮き上がりや影の変化は使わない
-   - 背景色の変化のみ: `hover:bg-gray-50 dark:hover:bg-neutral-900`
+   - 背景色の変化のみ: `hover:bg-gray-100 dark:hover:bg-neutral-800`
    - トランジション: `transition-colors`
 
 4. **テキストの配置**

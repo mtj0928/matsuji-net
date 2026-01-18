@@ -5,7 +5,7 @@ interface Props {
   includeAllOption?: boolean;
 }
 
-const { tags, selectedTag, includeAllOption = false } = Astro.props;
+const { tags = [], selectedTag, includeAllOption = false } = Astro.props;
 ---
 
 {tags.length > 0 && (

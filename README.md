@@ -74,12 +74,14 @@ draft: false
   "image": "/images/works/作品画像.png",
   "link": "https://example.com",
   "category": "oss",
-  "tags": ["タグ1", "タグ2"],
   "order": 1,
-  "size": "medium",
   "featured": true
 }
 ```
+
+補足:
+- `featured: true` の作品はホーム画面のWorksに表示されます
+- `order` は表示順（昇順）に使われます
 
 ## カスタマイズ
 

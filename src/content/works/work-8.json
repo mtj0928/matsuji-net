@@ -1,1 +1,1 @@
-{"title":"Swift Async Operations","description":"Swift Concurrencyを使った非同期処理のライブラリ。OperationQueueの代替として利用できます。","link":"https://github.com/mtj0928/swift-async-operations","category":"oss","tags":["Swift","Concurrency","iOS"],"order":8,"size":"small","featured":true}
+{"title":"Swift Async Operations","description":"Swift Concurrencyを使った非同期処理のライブラリ。OperationQueueの代替として利用できます。","link":"https://github.com/mtj0928/swift-async-operations","category":"oss","order":8,"featured":true}

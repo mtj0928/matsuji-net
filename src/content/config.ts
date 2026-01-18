@@ -23,9 +23,7 @@ const worksCollection = defineCollection({
     image: z.string().optional(),
     link: z.string().url(),
     category: z.enum(['oss', 'app', 'presentation', 'article']),
-    tags: z.array(z.string()).default([]),
     order: z.number(),
-    size: z.enum(['small', 'medium', 'large']),
     featured: z.boolean().default(false),
   }),
 });

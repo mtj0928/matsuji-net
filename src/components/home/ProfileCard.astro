@@ -5,7 +5,7 @@ import SocialLinks from '../common/SocialLinks.astro';
 const profile = {
   name: 'matsuji',
   bio: 'iOS app developer in Japan🇯🇵',
-  avatar: '/images/profile.jpg',
+  avatar: '/images/matsuji.jpeg',
 };
 ---
 
@@ -13,7 +13,7 @@ const profile = {
   <div class="flex flex-col items-center text-center space-y-6">
     <!-- Avatar -->
     <img
-      src="https://avatars.githubusercontent.com/u/12427733?v=4"
+      src={profile.avatar}
       alt={profile.name}
       class="w-32 h-32 rounded-full object-cover"
     />

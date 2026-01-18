@@ -40,7 +40,7 @@ const worksByCategory = categories
     {worksByCategory.map((category) => (
       <section class="mb-12">
         <h2 class="text-xl font-bold mb-0 md:mb-1">{category.label}</h2>
-        <div class="card p-6">
+        <div class="card px-0 py-6 md:p-6">
           <div class="space-y-6">
             {category.items.map((work) => {
               const imageSrc = work.ogp?.image ?? work.data.image ?? fallbackWorkImage;
@@ -53,10 +53,10 @@ const worksByCategory = categories
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${title}: ${description || 'No description available'}`}
-                  class="group flex flex-row rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors p-3"
+                  class="group flex flex-row rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors px-0 py-3 md:p-3"
                 >
                   {/* Image section - 16:9 aspect ratio, left side */}
-                  <div class="aspect-video w-56 md:w-64 overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0 rounded-md">
+                  <div class="aspect-video w-36 sm:w-48 md:w-64 overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0 rounded-md">
                     <img
                       src={imageSrc}
                       alt={title}

@@ -1,0 +1,9 @@
+{
+	"title": "xcd",
+	"description": "Xcodeで最近開いたプロジェクトにCLI上で移動するツールです。",
+	"link": "https://github.com/mtj0928/xcd",
+	"ogpEnabled": false,
+	"category": "oss",
+	"order": 8,
+	"featured": false
+}

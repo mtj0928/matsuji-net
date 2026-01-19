@@ -1,6 +1,6 @@
 {
-	"title": "カスタムUIを作る覚悟",
-	"description": "iOSDC Japan 2025での登壇です。iOSアプリ開発の現場ではカスタムUIを導入することはよくありますが、それに必要な覚悟について話しています。",
+	"title": "カスタムUIを作る覚悟 / iOSDC Japan 2025",
+	"description": "iOSアプリ開発の現場ではカスタムUIを導入することはよくありますが、それに必要な覚悟について話しています。",
 	"link": "https://speakerdeck.com/matsuji/the-determination-to-create-a-custom-ui",
 	"category": "presentation",
 	"order": 1,

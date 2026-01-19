@@ -1,0 +1,9 @@
+{
+	"title": "agent-adapter",
+	"description": "AGENTS.mdやCLAUDE.mdを一つのファイルから生成するツールです。",
+	"link": "https://github.com/mtj0928/agent-adapter",
+	"ogpEnabled": false,
+	"category": "oss",
+	"order": 6,
+	"featured": false
+}

@@ -70,9 +70,10 @@ draft: false
 ```json
 {
   "title": "作品名",
-  "description": "説明",
+  "description": "説明\n[リンク](https://example.com)",
   "image": "/images/works/作品画像.png",
   "link": "https://example.com",
+  "ogpEnabled": true,
   "category": "oss",
   "order": 1,
   "featured": true
@@ -82,6 +83,8 @@ draft: false
 補足:
 - `featured: true` の作品はホーム画面のWorksに表示されます
 - `order` は表示順（昇順）に使われます
+- `ogpEnabled: false` にするとOGP取得と表示を行いません
+- `description` はMarkdown対応（リンクや改行に対応）
 
 ## カスタマイズ
 

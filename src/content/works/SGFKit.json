@@ -4,5 +4,6 @@
 	"link": "https://github.com/mtj0928/SGFKit",
 	"category": "oss",
 	"order": 5,
-	"featured": false
+	"featured": false,
+	"ogpEnabled": false
 }

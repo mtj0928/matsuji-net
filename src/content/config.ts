@@ -22,6 +22,7 @@ const worksCollection = defineCollection({
     description: z.string(),
     image: z.string().optional(),
     link: z.string().url(),
+    ogpEnabled: z.boolean().default(true),
     category: z.enum(['oss', 'app', 'presentation', 'article']),
     order: z.number(),
     featuredOrder: z.number().optional(),

@@ -128,7 +128,7 @@ Works表示は**Recent Postsと統一されたシンプルなデザイン**を�
 - **影・枠線なし** - クリーンな見た目
 - **控えめなHover効果** - 背景色の変化のみ（`hover:bg-gray-100 dark:hover:bg-neutral-800`）
 - **弱い角丸** - `rounded-lg`（約8px）で柔らかい印象
-- **OGP画像を活用** - ビルド時に各WorkのOGP情報を取得して表示
+- **OGP表示はオプション** - `ogpEnabled` が `true` のときだけOGP情報を取得して表示
 
 #### レイアウト構造
 
@@ -137,19 +137,19 @@ Works表示は**Recent Postsと統一されたシンプルなデザイン**を�
 │ 登壇                                 │
 │ ┌────────────────────────────────┐ │
 │ │ ┌────┐  タイトル              │ │
-│ │ │OGP │  説明文...             │ │
+│ │ │IMG │  説明文...             │ │
 │ │ └────┘                         │ │
 │ └────────────────────────────────┘ │
 │ ┌────────────────────────────────┐ │
 │ │ ┌────┐  タイトル              │ │
-│ │ │OGP │  説明文...             │ │
+│ │ │IMG │  説明文...             │ │
 │ │ └────┘                         │ │
 │ └────────────────────────────────┘ │
 └─────────────────────────────────────┘
 ```
 
 **レイアウトの特徴**:
-- **横並び配置**: 左にOGP画像（16:9）、右にタイトル＋説明
+- **横並び配置**: 左に画像（16:9）、右にタイトル＋説明
 - **カテゴリー別グループ化**: 登壇、記事執筆、OSS、アプリ開発で分類
 - **縦積みリスト**: 各カテゴリー内で縦に並ぶ
 
@@ -162,12 +162,19 @@ Works表示は**Recent Postsと統一されたシンプルなデザイン**を�
 | アイテム間隔 | `space-y-4` (16px) | `space-y-6` (24px) |
 | パディング | `px-2 py-4 md:p-4` | `px-2 py-4 md:p-4` |
 
-#### OGP画像取得の実装
+#### OGP画像取得の実装（オプション）
 
 ```typescript
-// ビルド時に各WorkのOGP情報を取得
+// ビルド時に各WorkのOGP情報を取得（ogpEnabledがtrueの場合のみ）
 const worksWithOgp = await Promise.all(
   sortedWorks.map(async (work) => {
+    if (!work.data.ogpEnabled) {
+      return {
+        ...work,
+        ogp: null,
+      };
+    }
+
     const ogp = await fetchOgp(work.data.link);
     return {
       ...work,
@@ -177,13 +184,16 @@ const worksWithOgp = await Promise.all(
 );
 
 // 表示時のフォールバック
-const imageSrc = work.ogp?.image ?? work.data.image ?? fallbackWorkImage;
-const title = work.ogp?.title ?? work.data.title;
-const description = work.ogp?.description ?? work.data.description;
+const useOgp = work.data.ogpEnabled;
+const imageSrc = useOgp
+  ? work.ogp?.image ?? work.data.image ?? fallbackWorkImage
+  : work.data.image ?? fallbackWorkImage;
+const title = work.data.title ?? (useOgp ? work.ogp?.title : undefined);
+const description = work.data.description ?? (useOgp ? work.ogp?.description : undefined);
 ```
 
 **ポイント**:
-- ビルド時にOGP情報を取得するため、ユーザー体験が高速
+- OGP有効時のみビルドで取得するため、不要な外部取得を抑制
 - OGP取得失敗時のフォールバックを用意
 - 16:9のアスペクト比を維持
 
@@ -291,7 +301,7 @@ class="... p-2"  // padding = 8px
   border-radius: 28px;  // r1 = 28px
 }
 
-// OGP画像の角丸
+// OGP/サムネイル画像の角丸
 // r2 = 28px - 8px = 20px
 class="... rounded-[20px]"
 ```
@@ -539,7 +549,7 @@ done
 2. **角丸の使い分け**
    - 強調が必要な要素: `squircle-corners` (28px) - Profileカード等
    - 一般的な要素: `rounded-lg` (8px) - Works, Posts等
-   - 画像要素: `rounded-md` (6px) - OGP画像等
+   - 画像要素: `rounded-md` (6px) - サムネイル画像等
    - 同心円の法則（r2 = r1 - p）を適用
 
 3. **Hover効果の統一**
@@ -548,7 +558,7 @@ done
    - トランジション: `transition-colors`
 
 4. **テキストの配置**
-   - OGP画像とテキストの組み合わせでは上揃え（`justify-start`）
+   - 画像とテキストの組み合わせでは上揃え（`justify-start`）
    - 視覚的な統一感を重視
 
 ## まとめ

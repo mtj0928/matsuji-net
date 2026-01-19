@@ -38,9 +38,9 @@ const worksByCategory = categories
     </header>
 
     {worksByCategory.map((category) => (
-      <section class="mb-12">
+      <section class="mb-0 md:mb-12">
         <h2 class="text-xl font-bold mb-0 md:mb-1">{category.label}</h2>
-        <div class="card px-0 pt-1 pb-6 md:p-6">
+        <div class="card px-0 pt-0 pb-6 md:px-6 md:pt-3 md:pb-6">
           <div class="space-y-1 md:space-y-6">
             {category.items.map((work) => {
               const imageSrc = work.ogp?.image ?? work.data.image ?? fallbackWorkImage;

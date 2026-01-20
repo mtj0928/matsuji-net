@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.card {
+  background-color: transparent;
+  border-radius: 0.75rem;
+}
+
+.squircle-corners {
+  border-radius: 28px;
+  corner-shape: squircle;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: transparent;
+  }
+
+  .tag {
+    background-color: #3f3f46;
+    color: #d4d4d4;
+  }
+}

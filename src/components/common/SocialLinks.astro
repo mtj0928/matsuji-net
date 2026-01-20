@@ -1,0 +1,25 @@
+---
+// SNSリンク群
+// TODO: 実際のURLに置き換える
+const socialLinks = [
+  { name: 'GitHub', url: 'https://github.com/mtj0928' },
+  { name: 'X (Twitter)', url: 'https://twitter.com/mtj_j' },
+  { name: 'Note', url: 'https://note.com/mtj0928' },
+  { name: 'Speaker Deck', url: 'https://speakerdeck.com/matsuji' },
+  { name: 'Zenn', url: 'https://zenn.dev/matsuji' },
+  { name: 'Mastodon', url: 'https://mstdn.jp/@matsuji' },
+];
+---
+
+<div class="flex flex-wrap justify-center gap-0 text-sm text-center text-gray-700 dark:text-gray-300">
+  {socialLinks.map((link) => (
+    <a
+      href={link.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="px-2 py-1 rounded-full leading-none hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-neutral-800 dark:hover:text-white transition-colors"
+    >
+      {link.name}
+    </a>
+  ))}
+</div>

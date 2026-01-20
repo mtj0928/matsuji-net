@@ -1,0 +1,9 @@
+{
+	"title": "swift-codeowners",
+	"description": "GitHubのCODEOWNERSファイルをSwiftで解析するツールです。",
+	"link": "https://github.com/mtj0928/swift-codeowners",
+	"ogpEnabled": false,
+	"category": "oss",
+	"order": 7,
+	"featured": false
+}

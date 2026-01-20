@@ -1,0 +1,141 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../../utils/date';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, heroImage, tags } = post.data;
+---
+
+<article class="card py-6 px-0 md:p-6 group relative">
+  <a
+    href={`/blog/${post.slug}`}
+    class="absolute inset-0 z-10"
+    aria-label={`${title}の記事を読む`}
+  ></a>
+  <div class={`blog-card-layout ${heroImage ? '' : 'blog-card-layout--no-thumb'}`}>
+    <div class="blog-card-meta">
+      <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <time datetime={pubDate.toISOString()}>
+          {formatDate(pubDate)}
+        </time>
+      </div>
+
+      <h2 class="text-xl font-bold group-hover:text-gray-900 dark:group-hover:text-neutral-100 transition-colors">
+        {title}
+      </h2>
+    </div>
+
+    {heroImage && (
+      <div class="blog-card-thumb">
+        <div class="aspect-[1.91/1] rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-800">
+          <img
+            src={heroImage}
+            alt=""
+            loading="lazy"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    )}
+
+    <div class="blog-card-desc">
+      {description && (
+        <p class="text-gray-600 dark:text-gray-300 line-clamp-3">
+          {description}
+        </p>
+      )}
+
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 pt-2">
+          {tags.map((tag) => (
+            <a
+              href={`/blog/tag/${encodeURIComponent(tag)}`}
+              class="tag text-xs relative z-20"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .blog-card-layout {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "meta"
+      "thumb"
+      "desc";
+  }
+
+  .blog-card-meta {
+    grid-area: meta;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .blog-card-thumb {
+    grid-area: thumb;
+    width: 100%;
+  }
+
+  .blog-card-desc {
+    grid-area: desc;
+  }
+
+  @media (min-width: 768px) {
+    .blog-card-layout {
+      align-items: start;
+      gap: 1.5rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "meta thumb"
+        "desc thumb";
+    }
+
+    .blog-card-meta {
+      gap: 0.75rem;
+    }
+
+    .blog-card-thumb {
+      width: 10rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-card-thumb {
+      width: 12rem;
+    }
+  }
+
+  .blog-card-layout--no-thumb {
+    grid-template-areas:
+      "meta"
+      "desc";
+  }
+
+  @media (min-width: 768px) {
+    .blog-card-layout--no-thumb {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "meta"
+        "desc";
+    }
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

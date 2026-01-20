@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { renderInlineMarkdown } from '../../utils/markdown';
+import { fallbackWorkImage, fetchOgp, type OgpData } from '../../utils/works';
+
+const allWorks = await getCollection('works');
+const sortedWorks = allWorks.sort((a, b) => a.data.order - b.data.order);
+
+// ビルド時に各WorkのOGP情報を取得（必要な場合のみ）
+const worksWithOgp = await Promise.all(
+  sortedWorks.map(async (work) => {
+    if (!work.data.ogpEnabled) {
+      return {
+        ...work,
+        ogp: null,
+      };
+    }
+
+    const ogp = await fetchOgp(work.data.link);
+    return {
+      ...work,
+      ogp,
+    };
+  })
+);
+
+const categories = [
+  { key: 'app', label: 'アプリ開発' },
+  { key: 'oss', label: 'OSS' },
+  { key: 'presentation', label: '登壇' },
+  { key: 'article', label: '記事' },
+];
+const worksByCategory = categories
+  .map((category) => ({
+    ...category,
+    items: worksWithOgp.filter((work) => work.data.category === category.key),
+  }))
+  .filter((category) => category.items.length > 0);
+---
+
+<BaseLayout title="Works" description="これまでに作ったものや登壇・執筆の一覧です。">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold mb-4">Works</h1>
+    </header>
+
+    {worksByCategory.map((category) => (
+      <section class="mb-0 md:mb-12">
+        <h2 class="text-xl font-bold mb-0 md:mb-1">{category.label}</h2>
+        <div class="card px-0 pt-0 pb-6 md:px-6 md:pt-3 md:pb-6">
+          <div class="space-y-0">
+            {category.items.map((work) => {
+              const useOgp = work.data.ogpEnabled;
+              const imageSrc = useOgp ? work.ogp?.image ?? work.data.image ?? fallbackWorkImage : null;
+              const title = work.data.title ?? (useOgp ? work.ogp?.title : undefined);
+              const description = work.data.description ?? (useOgp ? work.ogp?.description : undefined);
+              const descriptionHtml = description ? renderInlineMarkdown(description) : null;
+              const textSpacingClass = useOgp ? 'px-3 md:px-4' : 'px-0';
+
+              return (
+                <a
+                  href={work.data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${title}: ${description || 'No description available'}`}
+                  class="group flex flex-row items-start rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors px-2 py-2 md:p-4"
+                >
+                  {/* Image section - 16:9 aspect ratio, left side */}
+                  {useOgp && imageSrc && (
+                    <div class="aspect-[1.91/1] w-36 sm:w-48 md:w-64 overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0 rounded-md border border-gray-200 dark:border-neutral-700">
+                      <img
+                        src={imageSrc}
+                        alt={title}
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
+                  {/* Text section - right side */}
+                  <div class={`flex-1 flex flex-col justify-start ${textSpacingClass} pt-0 pb-2 md:py-2 gap-1 md:my-auto`}>
+                    <h3 class="text-sm md:text-base font-semibold line-clamp-2 text-gray-900 dark:text-white leading-tight">
+                      {title}
+                    </h3>
+                    {descriptionHtml && (
+                      <div
+                        class="text-xs md:text-sm text-gray-600 dark:text-gray-400 line-clamp-none md:line-clamp-4 leading-snug [&_a]:text-gray-700 dark:[&_a]:text-gray-300 [&_a]:underline [&_a]:underline-offset-2"
+                        set:html={descriptionHtml}
+                      />
+                    )}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,18 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+
+import tailwindcss from '@tailwindcss/vite';
+
+// https://astro.build/config
+export default defineConfig({
+  site: 'https://matsuji.net',
+  base: '/',
+  output: 'static',
+
+  vite: {
+    plugins: [tailwindcss()],
+    server: {
+      allowedHosts: ['junnsoukemac-mini.tail7b2dfb.ts.net'],
+    },
+  },
+});

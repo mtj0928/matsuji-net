@@ -1,0 +1,9 @@
+{
+	"title": "key-value-storage",
+	"description": "UserDefaultsを型安全にしつつObservationsに対応したライブラリです。\nXcode Previewsでの使い道も想定してInMemoryなStorageに切り替えられるように作られており、とても便利です。",
+	"link": "https://github.com/mtj0928/key-value-storage",
+	"category": "oss",
+	"order": 4,
+	"featured": false,
+	"ogpEnabled": false
+}

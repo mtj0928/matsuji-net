@@ -1,0 +1,9 @@
+{
+	"title": "swift-async-operations",
+	"description": "Swiftで並列処理をasyncMapのような高階関数で書けるようにするライブラリです。Swift公式のCommunity Showcaseで紹介されました。",
+	"link": "https://github.com/mtj0928/swift-async-operations",
+	"category": "oss",
+	"order": 2,
+	"featuredOrder": 2,
+	"featured": true
+}

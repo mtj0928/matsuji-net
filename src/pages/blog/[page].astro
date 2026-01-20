@@ -1,0 +1,45 @@
+---
+import type { Page, GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import Pagination from '../../components/blog/Pagination.astro';
+import TagSelect from '../../components/blog/TagSelect.astro';
+import { getPublishedPosts, getPublishedTags } from '../../utils/blog';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const publishedPosts = await getPublishedPosts();
+
+  return paginate(publishedPosts, { pageSize: 10 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+
+// 全タグを取得
+const allTags = await getPublishedTags();
+---
+
+<BaseLayout title={`Blog - Page ${page.currentPage}`} description="技術ブログ記事の一覧です。">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold mb-4">Blog</h1>
+    </header>
+
+    <!-- Tags Filter -->
+    <TagSelect tags={allTags} />
+
+    <!-- Blog Posts Grid -->
+    <div class="space-y-4">
+      {page.data.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+
+    <!-- Pagination -->
+    <Pagination currentPage={page.currentPage} lastPage={page.lastPage} urlBase="/blog" />
+  </div>
+</BaseLayout>

@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import { renderInlineMarkdown } from '../../utils/markdown';
+import { fallbackWorkImage, fetchOgp } from '../../utils/works';
+
+// Featured worksのみを表示
+const allWorks = await getCollection('works');
+const featuredWorks = allWorks
+  .filter((work) => work.data.featured)
+  .sort((a, b) => {
+    const aOrder = a.data.featuredOrder ?? a.data.order;
+    const bOrder = b.data.featuredOrder ?? b.data.order;
+    return aOrder - bOrder;
+  })
+  .slice(0, 4);
+
+// ビルド時に各WorkのOGP情報を取得（必要な場合のみ）
+const worksWithOgp = await Promise.all(
+  featuredWorks.map(async (work) => {
+    if (!work.data.ogpEnabled) {
+      return {
+        ...work,
+        ogp: null,
+      };
+    }
+
+    const ogp = await fetchOgp(work.data.link);
+    return {
+      ...work,
+      ogp,
+    };
+  })
+);
+---
+
+<div class="card p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-semibold">Works</h2>
+    <a href="/works" class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 text-sm font-medium transition-colors">
+      もっと見る →
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 gap-2 md:gap-4">
+    {worksWithOgp.map((work) => {
+      const useOgp = work.data.ogpEnabled;
+      const imageSrc = useOgp ? work.ogp?.image ?? work.data.image ?? fallbackWorkImage : null;
+      const title = work.data.title ?? (useOgp ? work.ogp?.title : undefined);
+      const description = work.data.description ?? (useOgp ? work.ogp?.description : undefined);
+      const descriptionHtml = description ? renderInlineMarkdown(description) : null;
+      const textSpacingClass = useOgp ? 'px-3 md:px-4' : 'px-0';
+
+      return (
+        <a
+          href={work.data.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${title}: ${description || 'No description available'}`}
+          class="group flex flex-row items-start rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors px-2 py-2 md:p-4"
+        >
+          {/* Image section - 16:9 aspect ratio, left side */}
+          {useOgp && imageSrc && (
+            <div class="aspect-[1.91/1] w-36 sm:w-48 md:w-56 overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0 rounded-md border border-gray-200 dark:border-neutral-700">
+              <img
+                src={imageSrc}
+                alt={title}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          )}
+
+          {/* Text section - right side */}
+          <div class={`flex-1 flex flex-col justify-start ${textSpacingClass} pt-0 pb-2 md:py-2 gap-1 md:my-auto`}>
+            <h3 class="text-sm md:text-base font-semibold line-clamp-2 text-gray-900 dark:text-white leading-tight">
+              {title}
+            </h3>
+            {descriptionHtml && (
+              <div
+                class="text-xs md:text-sm text-gray-600 dark:text-gray-400 line-clamp-none md:line-clamp-4 leading-snug [&_a]:text-gray-700 dark:[&_a]:text-gray-300 [&_a]:underline [&_a]:underline-offset-2"
+                set:html={descriptionHtml}
+              />
+            )}
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</div>

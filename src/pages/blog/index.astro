@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import Pagination from '../../components/blog/Pagination.astro';
+import TagSelect from '../../components/blog/TagSelect.astro';
+import { getPublishedPosts, getPublishedTags } from '../../utils/blog';
+
+const PAGE_SIZE = 10;
+
+const publishedPosts = await getPublishedPosts();
+
+const totalPages = Math.ceil(publishedPosts.length / PAGE_SIZE);
+const posts = publishedPosts.slice(0, PAGE_SIZE);
+
+// 全タグを取得
+const allTags = await getPublishedTags(publishedPosts);
+---
+
+<BaseLayout title="Blog" description="技術ブログ記事の一覧です。">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold mb-4">Blog</h1>
+    </header>
+
+    <!-- Tags Filter -->
+    <TagSelect tags={allTags} />
+
+    <!-- Blog Posts Grid -->
+    <div class="space-y-4">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+
+    <!-- Pagination -->
+    <Pagination currentPage={1} lastPage={totalPages} urlBase="/blog" />
+  </div>
+</BaseLayout>

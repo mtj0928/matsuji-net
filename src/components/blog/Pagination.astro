@@ -1,0 +1,95 @@
+---
+interface Props {
+  currentPage: number;
+  lastPage: number;
+  urlBase: string;
+}
+
+const { currentPage, lastPage, urlBase } = Astro.props;
+
+const prevUrl = currentPage > 1 ? (currentPage === 2 ? urlBase : `${urlBase}/${currentPage - 1}`) : null;
+const nextUrl = currentPage < lastPage ? `${urlBase}/${currentPage + 1}` : null;
+
+// ページ番号のリストを生成（最大7ページ表示）
+const getPageNumbers = () => {
+  const pages: (number | string)[] = [];
+
+  if (lastPage <= 7) {
+    for (let i = 1; i <= lastPage; i++) {
+      pages.push(i);
+    }
+  } else {
+    if (currentPage <= 4) {
+      for (let i = 1; i <= 5; i++) {
+        pages.push(i);
+      }
+      pages.push('...');
+      pages.push(lastPage);
+    } else if (currentPage >= lastPage - 3) {
+      pages.push(1);
+      pages.push('...');
+      for (let i = lastPage - 4; i <= lastPage; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+      pages.push('...');
+      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+        pages.push(i);
+      }
+      pages.push('...');
+      pages.push(lastPage);
+    }
+  }
+
+  return pages;
+};
+
+const pageNumbers = getPageNumbers();
+---
+
+{lastPage > 1 && (
+  <nav class="flex items-center justify-center gap-2 mt-12" aria-label="Pagination">
+    {prevUrl && (
+      <a
+        href={prevUrl}
+        class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+      >
+        ← 前へ
+      </a>
+    )}
+
+    <div class="hidden sm:flex items-center gap-2">
+      {pageNumbers.map((page) =>
+        page === '...' ? (
+          <span class="px-3 py-2">...</span>
+        ) : (
+          <a
+            href={page === 1 ? urlBase : `${urlBase}/${page}`}
+            class={`px-4 py-2 rounded-lg border transition-colors ${
+              page === currentPage
+                ? 'bg-primary-500 text-white border-primary-500'
+                : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-800'
+            }`}
+            aria-current={page === currentPage ? 'page' : undefined}
+          >
+            {page}
+          </a>
+        )
+      )}
+    </div>
+
+    <div class="sm:hidden px-4 py-2">
+      {currentPage} / {lastPage}
+    </div>
+
+    {nextUrl && (
+      <a
+        href={nextUrl}
+        class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+      >
+        次へ →
+      </a>
+    )}
+  </nav>
+)}

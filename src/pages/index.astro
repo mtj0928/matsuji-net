@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import ProfileCard from '../components/home/ProfileCard.astro';
+import RecentBlogs from '../components/home/RecentBlogs.astro';
+import HomeWorks from '../components/home/HomeWorks.astro';
+---
+
+<BaseLayout title="Home">
+  <div class="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-12">
+    <!-- Desktop Layout -->
+    <div class="hidden lg:block">
+      <!-- Left: Fixed Profile Card -->
+      <div class="fixed top-24 left-8 xl:left-[calc((100vw-80rem)/2+2rem)]">
+        <ProfileCard />
+      </div>
+
+      <!-- Right: Recent Blogs & Works (offset for fixed profile) -->
+      <div class="ml-auto w-1/2 space-y-6">
+        <RecentBlogs />
+        <HomeWorks />
+      </div>
+    </div>
+
+    <!-- Mobile Layout -->
+    <div class="lg:hidden space-y-6">
+      <div class="flex justify-center">
+        <ProfileCard />
+      </div>
+      <RecentBlogs />
+      <HomeWorks />
+    </div>
+  </div>
+</BaseLayout>

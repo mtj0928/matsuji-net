@@ -1,0 +1,9 @@
+{
+	"title": "SGFKit",
+	"description": "囲碁の棋譜を記録するフォーマットであるSGFファイルをSwiftから扱いやすくしたライブラリです。",
+	"link": "https://github.com/mtj0928/SGFKit",
+	"category": "oss",
+	"order": 5,
+	"featured": false,
+	"ogpEnabled": false
+}

@@ -1,0 +1,36 @@
+---
+import SocialLinks from '../common/SocialLinks.astro';
+
+// TODO: 実際のプロフィール情報に置き換える
+const profile = {
+  name: 'matsuji',
+  bio: 'iOS app developer in Japan🇯🇵',
+  avatar: '/images/matsuji.jpeg',
+};
+---
+
+<div class="card p-8 max-w-xs">
+  <div class="flex flex-col items-center text-center space-y-6">
+    <!-- Avatar -->
+    <img
+      src={profile.avatar}
+      alt={profile.name}
+      class="w-32 h-32 rounded-full object-cover"
+    />
+
+    <!-- Name -->
+    <div>
+      <h1 class="text-3xl font-semibold">{profile.name}</h1>
+    </div>
+
+    <!-- Bio -->
+    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+      {profile.bio}
+    </p>
+
+    <!-- Social Links -->
+    <div class="pt-0">
+      <SocialLinks />
+    </div>
+  </div>
+</div>
